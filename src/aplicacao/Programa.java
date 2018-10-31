@@ -1,5 +1,7 @@
 package aplicacao;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.util.Scanner;
 
 /*
@@ -18,7 +20,17 @@ public class Programa {
 		//Scanner sc = new Scanner(System.in);
 		String path = "C:\\Users\\dsilva\\Documents\\eleicoes-simulador.csv";
 		
-		try {
+		try (BufferedReader br = new BufferedReader(new FileReader(path))) {
+			String linha = br.readLine();
+			System.out.println("Linhas do arquivo:");
+			while(linha != null) {
+				System.out.println(linha);
+				linha = br.readLine();
+			}
+			
+			
+			
+						
 			
 		} catch (Exception e) {
 			System.out.println("Erro: "+ e.getMessage());
