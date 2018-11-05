@@ -2,7 +2,8 @@ package aplicacao;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
-import java.util.Scanner;
+import java.util.HashMap;
+import java.util.Map;
 
 /*
  * Na contagem de votos de uma eleição, são gerados vários registros de votação 
@@ -21,16 +22,31 @@ public class Programa {
 		String path = "C:\\Users\\dsilva\\Documents\\eleicoes-simulador.csv";
 		
 		try (BufferedReader br = new BufferedReader(new FileReader(path))) {
+			
+			Map<String, String> votos = new HashMap<>();
+			
 			String linha = br.readLine();
-			System.out.println("Linhas do arquivo:");
 			while(linha != null) {
-				System.out.println(linha);
+				String[] campos = linha.split(",");
+			
+				//verifica se já existe aquela chave
+				if(votos.containsKey(campos[0])) {
+					//adiciona à chave existe o valor da linha antiga com o valor da linha atual
+					votos.put(campos[0], Integer.toString(Integer.parseInt(campos[1]) + 
+							Integer.parseInt(votos.get(campos[0]))));
+				} else {
+					//se não contém a chave adiciona a mesma
+					votos.put(campos[0], campos[1]);
+				}
+				
+				//lê a próxima linha
 				linha = br.readLine();
 			}
 			
-			
-			
-						
+			System.out.println("Resultado da votação:");
+			for(String key : votos.keySet()) {
+				System.out.println(key+" : "+votos.get(key));
+			}
 			
 		} catch (Exception e) {
 			System.out.println("Erro: "+ e.getMessage());
